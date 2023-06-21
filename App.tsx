@@ -2,12 +2,14 @@ import { StyleSheet, Text, View } from "react-native";
 import { _FlipNumbers } from "./src/CountFunc";
 import { useEffect, useState, version } from "react";
 import { Dimensions } from "react-native";
+import axios from "axios";
+import fetchData from "./src/APIRequest";
 
 export default function App() {
   const [number, setNumber] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => {
-      setNumber(number + 1);
+    const t = setInterval(async () => {
+      setNumber(await fetchData());
     }, 10);
 
     return () => {
