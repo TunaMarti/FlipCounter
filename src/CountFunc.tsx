@@ -12,7 +12,6 @@ type IProps = ComponentProps<typeof View> & {
 };
 
 const _FlipNumbers = (props: IProps) => {
-  console.log(Array(props.numbers.length), props.numbers.length);
   const arr = props.numbers.split("");
   return (
     <View style={styles.container}>

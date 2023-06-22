@@ -4,13 +4,39 @@ import { useEffect, useState, version } from "react";
 import { Dimensions } from "react-native";
 import axios from "axios";
 import fetchData from "./src/APIRequest";
+import incValCal from "./src/CountNumberIncrement";
 
 export default function App() {
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState<number>(0);
+  const [incVal, setIncVal] = useState<number>(0);
+  const [fetchNumber, setFetchNumber] = useState(0);
   useEffect(() => {
     const t = setInterval(async () => {
-      setNumber(await fetchData());
-    }, 10);
+      setFetchNumber(await fetchData());
+      setNumber(fetchNumber);
+      setIncVal(incValCal(fetchNumber, number));
+    }, 30000);
+
+    console.log(
+      "fetchNumber: ",
+      fetchNumber,
+      "number: ",
+      number,
+      "FARK: ",
+      fetchNumber - number,
+      "incVal: ",
+      incVal
+    );
+
+    return () => {
+      clearInterval(t);
+    };
+  }, [fetchNumber]);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setNumber(number + incVal);
+    }, 100);
 
     return () => {
       clearInterval(t);
