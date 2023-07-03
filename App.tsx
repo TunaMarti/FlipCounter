@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 import fetchData from "./src/APIRequest";
 import incValCal from "./src/CountNumberIncrement";
+import fetchDataAndCalculateIncrement from "./src/FetchDataAndCalculateIncrement";
 
 const milliseconds = {
   msFetch: 30000,
@@ -16,15 +17,10 @@ export default function App() {
   const [fetchNumber, setFetchNumber] = useState<number>(0);
 
   useEffect(() => {
-    const fetchDataAndCalculateIncrement = async () => {
-      const response = await fetchData();
-      setFetchNumber(response);
-      console.log("fetched number: ", response);
-    };
+    fetchDataAndCalculateIncrement(setFetchNumber);
 
-    fetchDataAndCalculateIncrement();
     const fetchInterval = setInterval(
-      fetchDataAndCalculateIncrement,
+      () => fetchDataAndCalculateIncrement(setFetchNumber),
       milliseconds.msFetch
     );
     return () => clearInterval(fetchInterval);
